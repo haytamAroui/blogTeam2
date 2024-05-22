@@ -1,8 +1,15 @@
 package be.intecbrussel.blogteam2.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
+@AllArgsConstructor @Setter @Getter @NoArgsConstructor
 @Entity
 public class User {
     @Id
@@ -37,129 +44,35 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
-    //Constructors
-    public User() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(uniqueName, user.uniqueName) && Objects.equals(email, user.email) && Objects.equals(street, user.street) && Objects.equals(home, user.home) && Objects.equals(city, user.city) && Objects.equals(zip, user.zip) && Objects.equals(password, user.password) && Objects.equals(retypePassword, user.retypePassword) && Objects.equals(avatar, user.avatar) && Objects.equals(posts, user.posts);
     }
 
-    public User(Long id, String firstName, String lastName, String uniqueName, String email, String street, String home, String city, String zip, String password, String retypePassword, String avatar, List<Post> posts) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.uniqueName = uniqueName;
-        this.email = email;
-        this.street = street;
-        this.home = home;
-        this.city = city;
-        this.zip = zip;
-        this.password = password;
-        this.retypePassword = retypePassword;
-        this.avatar = avatar;
-        this.posts = posts;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, uniqueName, email, street, home, city, zip, password, retypePassword, avatar, posts);
     }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", uniqueName='" + uniqueName + '\'' +
+                ", email='" + email + '\'' +
+                ", street='" + street + '\'' +
+                ", home='" + home + '\'' +
+                ", city='" + city + '\'' +
+                ", zip='" + zip + '\'' +
+                ", password='" + password + '\'' +
+                ", retypePassword='" + retypePassword + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", posts=" + posts +
+                '}';
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getUniqueName() {
-        return uniqueName;
-    }
-
-    public void setUniqueName(String uniqueName) {
-        this.uniqueName = uniqueName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getHome() {
-        return home;
-    }
-
-    public void setHome(String home) {
-        this.home = home;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRetypePassword() {
-        return retypePassword;
-    }
-
-    public void setRetypePassword(String retypePassword) {
-        this.retypePassword = retypePassword;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
 }

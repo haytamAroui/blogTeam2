@@ -1,9 +1,18 @@
 package be.intecbrussel.blogteam2.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
-@Entity
+@Entity @AllArgsConstructor
+@Setter
+@Getter
+@NoArgsConstructor
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,86 +37,31 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    //Constructors
-    public Comment() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return likes == comment.likes && Objects.equals(id, comment.id) && Objects.equals(title, comment.title) && Objects.equals(context, comment.context) && Objects.equals(replies, comment.replies) && Objects.equals(parentComment, comment.parentComment) && Objects.equals(post, comment.post) && Objects.equals(user, comment.user);
     }
 
-    public Comment(Long id, String title, int likes, String context, List<Comment> replies, Comment parentComment, Post post, User user) {
-        this.id = id;
-        this.title = title;
-        this.likes = likes;
-        this.context = context;
-        this.replies = replies;
-        this.parentComment = parentComment;
-        this.post = post;
-        this.user = user;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, likes, context, replies, parentComment, post, user);
     }
 
-    // Getters and Setters
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getLikes() {
-        return likes;
-    }
-
-    public void setLikes(int likes) {
-        this.likes = likes;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    public List<Comment> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<Comment> replies) {
-        this.replies = replies;
-    }
-
-    public Comment getParentComment() {
-        return parentComment;
-    }
-
-    public void setParentComment(Comment parentComment) {
-        this.parentComment = parentComment;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", likes=" + likes +
+                ", context='" + context + '\'' +
+                ", replies=" + replies +
+                ", parentComment=" + parentComment +
+                ", post=" + post +
+                ", user=" + user +
+                '}';
     }
 }
 

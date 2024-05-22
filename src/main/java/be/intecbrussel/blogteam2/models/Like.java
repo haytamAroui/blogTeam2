@@ -1,8 +1,17 @@
 package be.intecbrussel.blogteam2.models;
 
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity @AllArgsConstructor
+@Setter
+@Getter
+@NoArgsConstructor
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,49 +29,26 @@ public class Like {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    //Constructors
-    public Like() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Like like = (Like) o;
+        return Objects.equals(id, like.id) && Objects.equals(comment, like.comment) && Objects.equals(user, like.user) && Objects.equals(post, like.post);
     }
 
-    public Like(Long id, Comment comment, User user, Post post) {
-        this.id = id;
-        this.comment = comment;
-        this.user = user;
-        this.post = post;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, comment, user, post);
     }
 
-    // Getters and Setters
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
+    @Override
+    public String toString() {
+        return "Like{" +
+                "id=" + id +
+                ", comment=" + comment +
+                ", user=" + user +
+                ", post=" + post +
+                '}';
     }
 }
