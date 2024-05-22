@@ -13,6 +13,9 @@ import java.util.Objects;
 @Entity
 public class User {
     @Id
+    @Column(nullable = false, unique = true)
+    private String userName;
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -22,8 +25,6 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false, unique = true)
-    private String uniqueName;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -49,12 +50,12 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(uniqueName, user.uniqueName) && Objects.equals(email, user.email) && Objects.equals(street, user.street) && Objects.equals(home, user.home) && Objects.equals(city, user.city) && Objects.equals(zip, user.zip) && Objects.equals(password, user.password) && Objects.equals(retypePassword, user.retypePassword) && Objects.equals(avatar, user.avatar) && Objects.equals(posts, user.posts);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(userName, user.userName) && Objects.equals(email, user.email) && Objects.equals(street, user.street) && Objects.equals(home, user.home) && Objects.equals(city, user.city) && Objects.equals(zip, user.zip) && Objects.equals(password, user.password) && Objects.equals(retypePassword, user.retypePassword) && Objects.equals(avatar, user.avatar) && Objects.equals(posts, user.posts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, uniqueName, email, street, home, city, zip, password, retypePassword, avatar, posts);
+        return Objects.hash(id, firstName, lastName, userName, email, street, home, city, zip, password, retypePassword, avatar, posts);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class User {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", uniqueName='" + uniqueName + '\'' +
+                ", uniqueName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", street='" + street + '\'' +
                 ", home='" + home + '\'' +
