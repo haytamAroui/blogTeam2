@@ -18,7 +18,7 @@ public class LoginController {
             model.addAttribute("name", name);
             model.addAttribute("email", email);
         }
-        return "index";  // Ensure you have an index.html template in the correct directory
+        return "index";  
     }
 
     @GetMapping("/secured")
