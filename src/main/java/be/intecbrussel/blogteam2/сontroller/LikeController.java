@@ -1,4 +1,4 @@
-package be.intecbrussel.blogteam2.Controller;
+package be.intecbrussel.blogteam2.сontroller;
 
 import org.springframework.stereotype.Controller;
 

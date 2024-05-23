@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Post Details</title>
 </head>
 <body>
-
+<h1 th:text="${post.title}">Post Title</h1>
+<p th:text="${post.description}">Post Description</p>
+<p th:text="${post.content}">Post Content</p>
+<a th:href="@{'/posts/update/' + ${post.id}}">Update Post</a>
+<a th:href="@{'/posts/delete/' + ${post.id}}">Delete Post</a>
+<a href="/posts">Back to All Posts</a>
 </body>
 </html>
