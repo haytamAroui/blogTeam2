@@ -8,6 +8,6 @@ public interface LikeService {
 
     List<Like> getAllLikes();
     Like getLikeById(Long id);
-    void saveLike(Like like);
+    Like saveLike(Like like);  // Change: The method should return Like
     void deleteLikeById(Long id);
 }
