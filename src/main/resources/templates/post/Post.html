@@ -8,8 +8,44 @@
 <h1 th:text="${post.title}">Post Title</h1>
 <p th:text="${post.description}">Post Description</p>
 <p th:text="${post.content}">Post Content</p>
+<button onclick="addLike([[${post.id}]], [[${#httpServletRequest.remoteUser}]]);">Like</button>
+<button onclick="removeLike(/* likeId */);">Remove Like</button>
 <a th:href="@{'/posts/update/' + ${post.id}}">Update Post</a>
 <a th:href="@{'/posts/delete/' + ${post.id}}">Delete Post</a>
 <a href="/posts">Back to All Posts</a>
+
+<script>
+    function addLike(postId, userId) {
+        fetch('/api/likes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                post: { id: postId },
+                user: { id: userId }
+            }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
+    function removeLike(likeId) {
+        fetch('/api/likes/' + likeId, {
+            method: 'DELETE',
+        })
+            .then(() => {
+                console.log('Like removed');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+</script>
 </body>
 </html>
