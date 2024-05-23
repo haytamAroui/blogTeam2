@@ -18,7 +18,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @Table(name = "comments")
-public class Comment {
+public class Comment extends AuditModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
