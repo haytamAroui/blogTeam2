@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserById(String id) {
+    public User getUserById(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if(userOptional.isEmpty()){
             throw new IllegalStateException("post doesn't exist");
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteUserById(String id) {
+    public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
 }
