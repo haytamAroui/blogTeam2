@@ -1,4 +1,7 @@
 package be.intecbrussel.blogteam2.service;
 
-public class ServiceImpl {
+import org.springframework.stereotype.Service;
+
+@Service
+public class ServiceImpl implements UserService {
 }
