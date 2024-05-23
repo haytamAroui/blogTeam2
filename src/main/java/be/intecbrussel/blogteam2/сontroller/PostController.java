@@ -4,13 +4,15 @@ import be.intecbrussel.blogteam2.models.Post;
 import be.intecbrussel.blogteam2.service.postService.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/posts")
+@Controller
+@RequestMapping("/posts")
 public class PostController {
 
     @Autowired
@@ -18,28 +20,45 @@ public class PostController {
 
     // Get all posts
     @GetMapping
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    public String getAllPosts(Model model) {
+        List<Post> posts = postService.getAllPosts();
+        model.addAttribute("posts", posts);
+        return "posts";
     }
 
     // Get a single post by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable(value = "id") Long postId) {
+    public String getPostById(@PathVariable(value = "id") Long postId, Model model) {
         Post post = postService.getPostId(postId);
-        return ResponseEntity.ok().body(post);
+        model.addAttribute("post", post);
+        return "post";
     }
 
-    // Create a new post
+    // Create a new post (form)
+    @GetMapping("/create")
+    public String showCreatePostForm(Model model) {
+        model.addAttribute("post", new Post());
+        return "create_post";
+    }
+
+    // Handle post creation
     @PostMapping
-    public Post createPost(@Validated @RequestBody Post post) {
+    public String createPost(@Validated @ModelAttribute Post post) {
         postService.savePost(post);
-        return post;
+        return "redirect:/posts";
     }
 
-    // Update an existing post
-    @PutMapping("/{id}")
-    public ResponseEntity<Post> updatePost(@PathVariable(value = "id") Long postId,
-                                           @Validated @RequestBody Post postDetails) {
+    // Update an existing post (form)
+    @GetMapping("/update/{id}")
+    public String showUpdatePostForm(@PathVariable(value = "id") Long postId, Model model) {
+        Post post = postService.getPostId(postId);
+        model.addAttribute("post", post);
+        return "update_post";
+    }
+
+    // Handle post update
+    @PostMapping("/update/{id}")
+    public String updatePost(@PathVariable(value = "id") Long postId, @Validated @ModelAttribute Post postDetails) {
         Post post = postService.getPostId(postId);
 
         post.setTitle(postDetails.getTitle());
@@ -48,14 +67,14 @@ public class PostController {
         post.setLikes(postDetails.getLikes());
         post.setUser(postDetails.getUser());
 
-        final Post updatedPost = postService.savePost(post);
-        return ResponseEntity.ok(updatedPost);
+        postService.savePost(post);
+        return "redirect:/posts";
     }
 
     // Delete a post
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable(value = "id") Long postId) {
+    @GetMapping("/delete/{id}")
+    public String deletePost(@PathVariable(value = "id") Long postId) {
         postService.deletePostById(postId);
-        return ResponseEntity.noContent().build();
+        return "redirect:/posts";
     }
 }
