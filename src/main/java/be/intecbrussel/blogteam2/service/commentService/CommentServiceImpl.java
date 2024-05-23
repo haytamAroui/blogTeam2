@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -21,16 +22,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getCommentById(Long id) {
-        return null;
+        Optional<Comment> commentOptional = commentRepository.findById(id);
+        if(commentOptional.isEmpty()){
+            throw new IllegalStateException("comment doesn't exist");
+        }
+        return commentOptional.get();
     }
 
     @Override
-    public void saveComment(Comment post) {
-
+    public void saveComment(Comment comment) {
+        commentRepository.save(comment);
     }
 
     @Override
     public void deleteCommentById(Long id) {
-
+        commentRepository.deleteById(id);
     }
 }
