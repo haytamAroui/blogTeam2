@@ -21,6 +21,23 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> getAllCommentsByPostID(Long id) {
+        return commentRepository.findAll()
+                .stream()
+                .filter(com -> com.getPost().getId().equals(id))
+                .toList();
+    }
+
+    @Override
+    public Comment getCommentByPostIdAndCommentId(Long postId, Long commentId) {
+        Optional<Comment> commentOptional = commentRepository.findByIdAndPostId(postId, commentId);
+        if(commentOptional.isEmpty()){
+            throw new IllegalStateException("comment doesn't exist");
+        }
+        return commentOptional.get();
+    }
+
+    @Override
     public Comment getCommentById(Long id) {
         Optional<Comment> commentOptional = commentRepository.findById(id);
         if(commentOptional.isEmpty()){
@@ -38,4 +55,14 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentById(Long id) {
         commentRepository.deleteById(id);
     }
+
+    @Override
+    public List<Comment> findByPostId(Long Id) {
+        return commentRepository.findAll()
+                .stream()
+                .filter(com -> com.getPost().getId().equals(Id))
+                .toList();
+    }
+
+
 }
