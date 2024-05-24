@@ -1,6 +1,5 @@
 package be.intecbrussel.blogteam2.service.userService;
 
-import be.intecbrussel.blogteam2.exception.EmailAlreadyExistsException;
 import be.intecbrussel.blogteam2.models.User;
 import be.intecbrussel.blogteam2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +40,12 @@ public class UserServiceImpl implements UserService{
 
     //*************************************************************************************
 
-   public boolean isEmailUnique(User user) {
-       if (userRepository.existsByEmail(user.getEmail())) {
-           throw new EmailAlreadyExistsException(" email " + user.getEmail() + " already exists.");
-       }
-       return true;
-   }
-
-
+    public boolean addUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return false;
+        }
+        userRepository.save(user);
+        return true;
     }
+
+}
