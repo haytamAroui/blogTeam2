@@ -37,4 +37,15 @@ public class UserServiceImpl implements UserService{
     public void deleteUserById(Long id) {
         userRepository.deleteById(id);
     }
+
+    //*************************************************************************************
+
+    public boolean addUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return false;
+        }
+        userRepository.save(user);
+        return true;
+    }
+
 }
