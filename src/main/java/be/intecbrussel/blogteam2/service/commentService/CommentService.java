@@ -3,7 +3,6 @@ package be.intecbrussel.blogteam2.service.commentService;
 import be.intecbrussel.blogteam2.models.Comment;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CommentService{
 
@@ -14,6 +13,6 @@ public interface CommentService{
 
     List<Comment> findByPostId(Long Id);
     List<Comment> getAllCommentsByPostID(Long id);
-    Comment findCommentByIdAndPostId(Long postId, Long commentId);
+    Comment getCommentByPostIdAndCommentId(Long postId, Long commentId);
 
 }

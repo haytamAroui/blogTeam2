@@ -29,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment findCommentByIdAndPostId(Long postId, Long commentId) {
+    public Comment getCommentByPostIdAndCommentId(Long postId, Long commentId) {
         Optional<Comment> commentOptional = commentRepository.findByIdAndPostId(postId, commentId);
         if(commentOptional.isEmpty()){
             throw new IllegalStateException("comment doesn't exist");

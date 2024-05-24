@@ -1,19 +1,11 @@
 package be.intecbrussel.blogteam2.Controller;
 
 import be.intecbrussel.blogteam2.models.Comment;
-import be.intecbrussel.blogteam2.models.Post;
-import be.intecbrussel.blogteam2.repository.CommentRepository;
 import be.intecbrussel.blogteam2.service.commentService.CommentService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 public class CommentController {
@@ -30,26 +22,48 @@ public class CommentController {
 
 
     @PostMapping(value = "/addNewComment")
-    public String createComment(@ModelAttribute("postId") Comment comment){
-        commentService.saveComment(comment);
-        return "redirect:/showPost/" + comment.getPost().getId();
+    public String createComment(@ModelAttribute("newComment") Comment newComment){
+        commentService.saveComment(newComment);
+        return "redirect:/showPost/" + newComment.getPost().getId();
     }
 
-    @GetMapping("/post/{postId}/comments/{commentId}")
-    public String showUpdatePostForm(@PathVariable(value = "commentId")
-                                         Long id, Model model){
-        return null;
+    //For comment's author
+    public String UpdateComment(@PathVariable(value = "commentId") Long commentId,
+                                     @ModelAttribute("updateComment") Comment updateComment) {
+        Comment commentToUpdate = commentService.getCommentById(commentId);
+        commentToUpdate.setText(updateComment.getText());
+        commentService.saveComment(commentToUpdate);
+        return "redirect:/showPost/" + updateComment.getPost().getId();
     }
 
-
-
-    @GetMapping("/post/{postId}/comments/{commentId}")
-    public String deleteComment(@PathVariable(value = "postId") Long postId,
-                                @PathVariable(value = "commentId") Long commentId){
-        //commentService.getAllCommentsByPostID(postId, commentId);
-        //commentService.deleteCommentById(id);
+    //For admin and comment's author
+    @PostMapping("/post/{postId}/comments/{commentId}")
+    public String deleteComment(@PathVariable(value = "commentId") Long commentId){
+        commentService.deleteCommentById(commentId);
         return "redirect:/";
     }
+
+
+
+    //    @GetMapping("/post/{postId}/comments/{commentId}")
+//    public String deleteComment(@PathVariable(value = "postId") Long postId,
+//                                @PathVariable(value = "commentId") Long commentId){
+//        Comment commentToDelete = commentService.getCommentByPostIdAndCommentId(postId, commentId);
+//        commentService.deleteCommentById(commentToDelete.getId());
+//        return "redirect:/";
+//    }
+
+
+
+    //    @GetMapping("/post/{postId}/comments/{commentId}")
+//    public String UpdateComment(@PathVariable(value = "postId") Long postId,
+//                                     @PathVariable(value = "commentId") Long commentId,
+//                                     @ModelAttribute("updateComment") Comment updateComment){
+//        Comment commentToUpdate = commentService.getCommentByPostIdAndCommentId(postId, commentId);
+//        commentToUpdate.setText(updateComment.getText());
+//        commentService.saveComment(commentToUpdate);
+//        return "redirect:/showPost/" + updateComment.getPost().getId();
+//    }
 
 
 }
