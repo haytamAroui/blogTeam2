@@ -38,7 +38,8 @@ public class Post extends AuditModel {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
-    private Long likes;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Like> likes = new HashSet<>();
 
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -46,6 +47,15 @@ public class Post extends AuditModel {
     @OnDelete(action = OnDeleteAction.CASCADE)
     // @JsonIgnore
     private User user;
-    //  private String userName;
+    // Transient field to hold userName
 
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "post_tags",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
 }
