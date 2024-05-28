@@ -8,28 +8,28 @@ import lombok.Setter;
 
 
 
-@Entity
 @AllArgsConstructor
-@Setter
-@Getter
 @NoArgsConstructor
+@Getter
+@Setter
+@Entity
 @Table(name = "likes")
 public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-  @OneToOne
-    @JoinColumn(name = "comment_id")
-    private Comment comment;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "post_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = true)
     private Post post;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id", nullable = true)
+    private Comment comment;
 
 
 }
